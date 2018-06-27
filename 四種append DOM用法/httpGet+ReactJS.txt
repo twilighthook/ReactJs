@@ -1,0 +1,57 @@
+//建立一個http連線的function
+            var httpGet = function (url , callback)
+            {
+                var xhttp = new XMLHttpRequest();
+                xhttp.open("GET", url, false);
+                xhttp.onreadystatechange = function () {
+                    if (xhttp.readyState == 4 && xhttp.status == 200) { //假如連線完成(0~4各有不同狀態)，且是200連線完成
+                        console.log(xhttp.responseText);
+                        callback(xhttp.responseText);
+                    }
+                };
+                xhttp.send(null);
+            }
+
+            function article(props) {
+                alert(props);
+                class Box extends React.Component {
+                    constructor() {
+                        super()
+                        this.state = {  //需要parse成json，因為這樣才可以使用，不然只是一般的object
+                            data: JSON.parse(props)
+                        }
+                    }
+                    render() {
+                        return(
+                                <React.Fragment>  //若用普通的div boosttrap會失效
+                                    {
+                                        this.state.data.map(article => ( //此函式的state(存變數的地方)的data內的map
+                                            <li className="col-xs-12 col-sm-6 col-md-4 block">  //class要改成className
+                                                <div className="box">
+                                                    <h2 className="box_title" name="box_title"id="box_title" align = 'center'>{article.Title}</h2>
+                                                    <img className = "box_img" src = {article.Image}></img>
+                                                    <hr className="box_hr">
+                                                    </hr>
+                                                    <div className="box_text">
+                                                    <p2 className="text_intro">
+                                                        {article.Body}
+                                                    </p2>
+                                                </div>
+                                                </div>
+                                            </li>
+                                        )) 
+                                    }
+                                </React.Fragment>
+                            )
+                    }
+                }
+                
+                ReactDOM.render(
+                        <Box />,
+                        document.getElementById('the_box')
+                        );
+            }
+
+            $(document).ready(function () {
+                httpGet('ArticleDao.do' , article);  //傳url和一個函式給連線function
+            });

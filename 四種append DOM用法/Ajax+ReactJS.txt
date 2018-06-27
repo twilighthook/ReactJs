@@ -1,0 +1,51 @@
+
+            function article() {
+                class Box extends React.Component {
+                    constructor() {
+                        super();
+                        this.state = {data: []};
+                    }
+                    componentWillMount(){
+                        $.ajax({
+                            type: "GET",
+                            url: "ArticleDao.do",
+                            //data:{Title:'hello'}, //可以用此方式傳值給java servlet
+                            dataType: 'json',
+                            success: function(article){
+                                this.setState({data: article});
+                            }.bind(this),
+                            error: function(err){
+                                console.err(this.props.url,status,err.toString())
+                            }.bind(this)
+                        });
+                    }; 
+                    render() { //使用 ES6 的 Class（可以進行比較複雜的操作和元件生命週期的控制，相對於 stateless components 耗費資源）
+                        return( // render 是唯一必須的方法，但如果是單純 render UI 建議使用 Functional Component 寫法(const)，效能較佳且較簡潔
+                                <React.Fragment>
+                                    {
+                                        this.state.data.map(article => ( //style可使用react原生用法，或是外部連接(原本用法)
+                                            <li className="col-xs-12 col-sm-6 col-md-4 block">
+                                                <div className="box">
+                                                    <h2 className="box_title" name="box_title"id="box_title" align = 'center'>{article.Title}</h2>
+                                                    <img className = "box_img" src = {article.Image}></img>
+                                                    <hr className="box_hr">
+                                                    </hr>
+                                                    <div className="box_text">
+                                                    <p2 className="text_intro">
+                                                        {article.Body}
+                                                    </p2>
+                                                </div>
+                                                </div>
+                                            </li>
+                                        )) 
+                                    }
+                                </React.Fragment>
+                            );
+                    }
+                }
+                ReactDOM.render (<Box /> , document.getElementById('the_box') );
+            }
+
+            $(document).ready(function () {
+                article();
+            });

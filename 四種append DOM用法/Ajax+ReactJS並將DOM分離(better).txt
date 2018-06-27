@@ -1,0 +1,60 @@
+            function article() {
+		//props主要是從父類別傳過來的data，state則是處理其本身的資料
+
+                const Article = (props) =>  (
+                            <React.Fragment>
+                                {
+                                    props.items.map((item) => (
+                                            <li className="col-xs-12 col-sm-6 col-md-4 block">
+                                                <div className="box">
+                                                    <h2 className="box_title" name="box_title"id="box_title" align = 'center'>{item.Title}</h2>
+                                                        <img className = "box_img" src = {item.Image}></img>
+                                                        <hr className="box_hr">
+                                                    </hr>
+                                                    <div className="box_text">
+                                                        <p2 className="text_intro">
+                                                        {item.Body}
+                                                        </p2>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            ))
+                                }
+                            </React.Fragment>
+                        )
+                
+                class Box extends React.Component {
+                    constructor() {
+                        super();
+                        this.state = {data: []};
+                    }
+                    componentWillMount(){
+                        $.ajax({
+                            type: "GET",
+                            url: "ArticleDao.do",
+                            //data:{Title:'hello'}, //可以用此方式傳值給java servlet
+                            dataType: 'json',
+                            success: function(article){
+                                this.setState({data: article});
+                            }.bind(this),
+                            error: function(err){
+                                console.err(this.props.url,status,err.toString())
+                            }.bind(this)
+                        });
+                    }; 
+                    render() {
+                        return(
+                                <React.Fragment>
+                                    {
+                                    <Article  items={this.state.data} />
+                                    }
+                                </React.Fragment>
+                            );
+                    }
+                }
+                ReactDOM.render (<Box /> , document.getElementById('the_box') );
+            }
+
+            $(document).ready(function () {
+                article();
+            });

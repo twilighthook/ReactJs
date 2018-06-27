@@ -1,0 +1,56 @@
+﻿javascript:($ means jQuery)
+$(document).ready(function () {
+		$.ajax({
+			type: "GET",
+			url: "Action.do", //此url要對應地方做連結(EX:PHP或是java servlet)
+			dataType: "json", //通常使用json檔，json檔格式[{col1:XXX , col2:YYY},{col1:KKK , col2:MMM}]
+			error: function () { //錯誤時做的動作
+                alert("Connect error!!!");
+            },
+			success: function (data){
+				$.each(data , (key , item){ //需要一個key和item for each
+					$("#Id_Name").append("<p>" + item.col1 + "</p>");
+				})
+			}
+		});
+
+});
+
+//缺點:沒版法做函式分割DOM的部分，只能一次append完成
+
+                $.ajax({
+                    type: "GET", //有post和get
+                    url: "ArticleDao.do", //設定url
+                    dataType: "json",
+                    error: function () {
+                        alert("Connect error!!!");
+                    },
+                    success: function (data) {
+                        alert("Connect success!!!" + Object.keys(data).length);
+                        jQuery.each(data, function (key, item) {
+                            jQuery("#the_box").append("<li class='col-xs-12 col-sm-6 col-md-4 block'>\n\
+                                <div class='box'>\n\
+                                    <div style='height:auto;'>\n\
+                                        <h2 class='box_title' name='box_title' id='box_title' align = 'center'>" + item.Title + "</h2>\n\
+                                        <img class = 'box_img' src = '" + item.Image + "'></img>\n\
+                                    </div>\n\
+                                    <div style='height:auto;'>\n\
+                                        <hr class='box_hr'>\n\
+                                        </hr>\n\
+                                    </div>\n\
+                                    <div style='height:150px;'>\n\
+                                        <div class='box_text'>\n\
+                                            <p2 class='text_intro'>\n\
+                                            " + item.Body + "\n\
+                                            </p2>\n\
+                                        </div>\n\
+                                    </div>\n\
+                                </div>\n\
+                            </li>");
+                        });
+                    }
+                });
+
+            $(document).ready(function () {
+                loadData("ArticleDao.do");
+            });
