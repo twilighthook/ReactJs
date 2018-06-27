@@ -1,0 +1,29 @@
+http://www.w3school.com.cn/ajax/ajax_xmlhttprequest_onreadystatechange.asp
+
+//有點像是main函式的用法
+ReactDOM.render(
+<(Put the tag you declare) />,  //EX: <Game />  指的是一個名為Game的class
+document.getElementById("root") //The place you want to put the DOM 
+)
+
+//取得資料
+fetch(`https://www.reddit.com/r/dogs.json`)
+.then(response => {
+        return response.json();
+})
+.then(json => {
+    // doSomeThing(json.someProperty)
+    // this.setState({jsonData: json});
+})
+.catch((error) => {
+    // AHHHH! An Error!
+});
+
+傳遞所需要的函式
+class Game extends React.Component{
+	render(){  //給予
+		
+	}
+}
+
+
